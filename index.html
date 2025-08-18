@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitCoach - Personal Fitness Trainer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="st
+    <style>
+        /* General Styles and Design Tokens */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #343a40;
+            --light-bg: #f8f9fa;
+            --white-bg: #ffffff;
+            --text-color: #6c757d;
+            --white: #fff;
+            --accent-color: #ffc107;
+            --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.8;
+            color: var(--text-color);
+            background-color: var(--white-bg);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: var(--accent-color);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column; /* Changed to column to stack elements */
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--secondary-color);
+            background-color: var(--white-bg);
+            padding: 0 20px; /* Removed top/bottom padding for true vertical centering */
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: none;
+        }
+
+        .hero-content {
+            z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        /* Adjusted margin for closer logo and title */
+        .hero-logo {
+            max-width: 250px;
+            margin-bottom: 0.5rem; 
+            animation: fadeIn 1s ease-out 0.5s both;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            text-shadow: none;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            margin-bottom: 2.5rem;
+            color: var(--secondary-color);
+            text-shadow: none;
+        }
+        
+        .hero .btn {
+            color: var(--white);
+            background-color: var(--primary-color);
+        }
+
+        /* Sections */
+        .section {
+            padding: 5rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .section.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .section-heading {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+        }
+        
+        /* About Section */
+        .about .container {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .about-text h3 {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+            text-align: center; 
+            width: 100%;
+        }
+
+        /* Services Section */
+        .services {
+            background-color: var(--light-bg);
+        }
+        .service-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        .service-card {
+            background-color: var(--white-bg);
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+        .service-card h3 {
+            margin: 1rem 0;
+            color: var(--primary-color);
+        }
+        .service-card p {
+            font-size: 1rem;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            position: relative;
+            overflow: hidden;
+        }
+        .testimonial-carousel {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            width: 100%;
+        }
+        .testimonial-item {
+            min-width: 100%;
+            text-align: center;
+            padding: 0 15%;
+        }
+        .stars {
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        .testimonial-item p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--secondary-color);
+        }
+        .testimonial-item h4 {
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+        }
+        .carousel-nav button {
+            background: var(--primary-color);
+            border: none;
+            color: var(--white);
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            opacity: 0.7;
+            transition: background-color 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+        }
+        .carousel-nav button:hover {
+            background-color: var(--accent-color);
+            transform: scale(1.1);
+            opacity: 1;
+        }
+
+        /* CONTACT */
+        .contact {
+            background-color: var(--light-bg);
+            text-align: center;
+            padding: 4rem 20px;
+        }
+        
+        .contact .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .contact h2 {
+            margin-bottom: 1.5rem;
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            color: var(--secondary-color);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--secondary-color);
+            color: var(--white);
+            text-align: center;
+            padding: 2rem 0;
+            font-size: 0.9rem;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+        .footer-links a {
+            color: var(--white);
+            transition: color 0.3s ease;
+        }
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <!-- HERO -->
+        <section id="home" class="hero" aria-label="Hero">
+            <div class="hero-content">
+                <img src="https://i.ibb.co/M5srYrKL/31361623-0a98-4a25-88fb-255d75d08479.png" alt="FitC
+                <h1>Redefine Your Limits</h1>
+                <p>Personalized fitness coaching designed for real, sustainable results.</p>
+                <a href="#contact" class="btn">Start Now</a>
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="section" aria-label="About">
+            <div class="container">
+                <h2 class="section-heading">About Me</h2>
+                <div class="about-text">
+                    <h3>Brijnandan Tiwari</h3>
+                    <p>
+                        I’m Brijnandan Tiwari, a fitness trainer with several years of experience helpi
+                        I specialize in personalized workout plans, strength training, diet planning, a
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SERVICES -->
+        <section id="services" class="section services" aria-label="Services">
+            <div class="container">
+                <h2 class="section-heading">My Services</h2>
+                <div class="service-cards">
+                    <div class="service-card">
+                        <h3 style="color:var(--primary-color);">Personal Training</h3>
+                        <p>One-on-one sessions tailored to your goals and fitness level, with continuou
+                    </div>
+                    <div class="service-card">
+                        <h3 style="color:var(--primary-color);">Nutrition Guidance</h3>
+                        <p>Evidence-based meal planning and expert advice to complement your training a
+                    </div>
+                    <div class="service-card">
+                        <h3 style="color:var(--primary-color);">Online Coaching</h3>
+                        <p>Personalized programs and dedicated support from anywhere in the world, with
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS -->
+        <section id="testimonials" class="section testimonials" aria-label="Testimonials">
+            <div class="container">
+                <h2 class="section-heading">What My Clients Say</h2>
+                <div class="carousel-container">
+                    <div class="testimonial-carousel">
+                        <div class="testimonial-item">
+                            <div class="stars">&#9733;&#9733;&#9733;&#9733;</div>
+                            <p>"My journey with Brij started at 97kg. With his guidance, I lost 23kg an
+                            <h4>- Vivek Agrawal</h4>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                            <p>"The whole weight-loss journey was wonderful with Brijnandan. I’m still 
+                            <h4>- Satish Bhandari</h4>
+                        </div>
+                        <div class="testimonial-item">
+                            <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+                            <p>"Diet planning completely changed my eating habits and helped me reach m
+                            <h4>- Rekha Chaturvedi</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-nav">
+                    <button id="prevBtn" aria-label="Previous testimonial">&lt;</button>
+                    <button id="nextBtn" aria-label="Next testimonial">&gt;</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="section contact" aria-label="Call to action">
+            <div class="container">
+                <h2>Ready to Start Your Fitness Journey?</h2>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSd5TGxTrF3tfTUvYVXbrvHtj5Vb8tBIriXFi6
+                    target="_blank" rel="noopener" class="btn">Start Now</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" aria-label="Footer">
+        <div class="container">
+            <p>Copyright © 2025 FitCoach</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms & Conditions</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Testimonial Carousel
+        const carousel = document.querySelector('.testimonial-carousel');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const items = document.querySelectorAll('.testimonial-item');
+        let currentIndex = 0;
+
+        function updateCarousel(){
+            if (carousel) {
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            }
+        }
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : items.length - 1;
+                updateCarousel();
+            });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                currentIndex = (currentIndex < items.length - 1) ? currentIndex + 1 : 0;
+                updateCarousel();
+            });
+        }
+
+        // Section reveal on scroll
+        const sections = document.querySelectorAll('.section');
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting){
+                    entry.target.classList.add('is-visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, {threshold:0.1});
+
+        sections.forEach(s => observer.observe(s));
+    </script>
+</body>
+</html>
+</html>
